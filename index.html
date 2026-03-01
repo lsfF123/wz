@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monica Dong | Creative Media Professional</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- ========== 自定义光标 ========== -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ========== 加载动画 (Film Countdown) ========== -->
+  <div class="loader" id="loader">
+    <div class="loader-grain"></div>
+    <div class="loader-vignette"></div>
+    <div class="loader-strip">
+      <div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div>
+    </div>
+    <div class="loader-strip loader-strip-bottom">
+      <div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div><div class="loader-strip-perf"></div>
+    </div>
+    <div class="loader-film">
+      <svg class="loader-circle-bg" viewBox="0 0 220 220"><circle cx="110" cy="110" r="100"/></svg>
+      <svg class="loader-circle-sweep" viewBox="0 0 220 220"><circle cx="110" cy="110" r="100" id="loaderSweep"/></svg>
+      <svg class="loader-cross" viewBox="0 0 220 220">
+        <line x1="110" y1="10" x2="110" y2="210"/>
+        <line x1="10" y1="110" x2="210" y2="110"/>
+      </svg>
+      <span class="loader-number" id="loaderNumber">3</span>
+    </div>
+    <div class="loader-label">MONICA DONG · REEL</div>
+  </div>
+
+  <!-- ========== 导航栏 ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-text">M<span class="logo-dot">.</span>D</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero" class="nav-link active" data-section="hero" data-i18n="nav_home">Home</a></li>
+        <li><a href="#about" class="nav-link" data-section="about" data-i18n="nav_about">About</a></li>
+        <li><a href="#projects" class="nav-link" data-section="projects" data-i18n="nav_portfolio">Portfolio</a></li>
+        <li><a href="#hobbies" class="nav-link" data-section="hobbies" data-i18n="nav_hobbies">Hobbies</a></li>
+        <li><a href="#contact" class="nav-link" data-section="contact" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-icon">☀️</span>
+      </button>
+      <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">
+        <span class="lang-active">EN</span>
+        <span class="lang-divider">/</span>
+        <span class="lang-inactive">中文</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== 侧边社交图标 ========== -->
+  <div class="social-sidebar" id="socialSidebar">
+    <a href="mailto:Monica.dong223@outlook.com" class="social-icon" title="Email">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6" fill="none" stroke="#030300" stroke-width="2"/></svg>
+    </a>
+    <a href="#" class="social-icon" title="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="#" class="social-icon" title="Instagram">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="#" class="social-icon" title="Vimeo">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 11.4C4.603 8.816 3.834 7.522 3.01 7.522c-.179 0-.806.378-1.881 1.132L0 7.197c1.185-1.044 2.351-2.084 3.501-3.128C5.08 2.701 6.266 1.984 7.055 1.91c1.867-.18 3.016 1.1 3.447 3.838.465 2.953.789 4.789.971 5.507.539 2.45 1.131 3.674 1.776 3.674.502 0 1.256-.796 2.265-2.385 1.004-1.589 1.54-2.797 1.612-3.628.144-1.371-.395-2.061-1.614-2.061-.574 0-1.167.121-1.777.391 1.186-3.868 3.434-5.757 6.762-5.637 2.473.06 3.628 1.664 3.493 4.797l-.013.01z"/></svg>
+    </a>
+    <div class="social-line"></div>
+  </div>
+
+  <!-- ========== 1. 首页 / Hero ========== -->
+  <section class="hero" id="hero">
+    <video class="hero-video-bg" autoplay muted loop playsinline>
+      <source src="./images/视频1.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-video-overlay"></div>
+    <div class="film-grain"></div>
+    <div class="hero-vignette"></div>
+    <div class="film-scratches">
+      <div class="film-scratch"></div>
+      <div class="film-scratch"></div>
+      <div class="film-scratch"></div>
+    </div>
+    <div class="film-countdown">
+      <svg viewBox="0 0 200 200">
+        <circle class="countdown-circle" cx="100" cy="100" r="90"/>
+        <circle class="countdown-sweep" cx="100" cy="100" r="90"/>
+        <line class="countdown-cross" x1="100" y1="10" x2="100" y2="190"/>
+        <line class="countdown-cross" x1="10" y1="100" x2="190" y2="100"/>
+        <text class="countdown-number" x="100" y="120" text-anchor="middle" id="countdownNum">8</text>
+      </svg>
+    </div>
+    <div class="hero-bg-layers">
+      <div class="hero-bg-layer layer-1" data-speed="0.3"></div>
+      <div class="hero-bg-layer layer-2" data-speed="0.5"></div>
+      <div class="hero-bg-layer layer-3" data-speed="0.7"></div>
+    </div>
+    <div class="hero-particles" id="heroParticles"></div>
+    <div class="hero-split">
+      <!-- 左侧：个人照片 -->
+      <div class="hero-photo-side anim-slide-right">
+        <div class="hero-photo-frame">
+          <img src="./images/个人1.jpg" alt="Monica Dong" class="hero-photo-main" />
+          <div class="hero-photo-border"></div>
+          <div class="hero-photo-accent"></div>
+        </div>
+        <div class="hero-photo-thumbnails">
+          <img src="./images/个人2.jpg" alt="Monica" class="hero-thumb" onclick="switchHeroPhoto(this)" />
+          <img src="./images/个人3.jpg" alt="Monica" class="hero-thumb" onclick="switchHeroPhoto(this)" />
+          <img src="./images/个人4.jpg" alt="Monica" class="hero-thumb" onclick="switchHeroPhoto(this)" />
+        </div>
+      </div>
+
+      <!-- 右侧：名字与简介 -->
+      <div class="hero-info-side">
+        <div class="hero-tag anim-slide-up" data-i18n="hero_tag">Screenwriting · Filmmaking · Visual Storytelling</div>
+        <h1 class="hero-title">
+          <span class="title-line anim-slide-up" style="--delay: 0.2s" data-i18n="hero_greeting">Hello, I'm</span>
+          <span class="title-line title-name anim-slide-up" style="--delay: 0.4s">Monica Dong</span>
+        </h1>
+        <p class="hero-desc anim-slide-up" style="--delay: 0.6s">
+          <span class="typewriter" id="typewriter"></span>
+        </p>
+        <div class="hero-cta anim-slide-up" style="--delay: 0.8s">
+          <a href="#projects" class="btn btn-primary magnetic-btn">
+            <span data-i18n="hero_btn_portfolio">View Portfolio</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#contact" class="btn btn-outline magnetic-btn">
+            <span data-i18n="hero_btn_contact">Contact Me</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
+      <span data-i18n="hero_scroll">Scroll Down</span>
+    </div>
+  </section>
+
+  <div class="film-strip-divider">
+    <div class="film-perforations">
+      <div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div>
+      <span class="film-strip-label">SCENE 01 · ABOUT</span>
+      <div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div>
+    </div>
+  </div>
+
+  <!-- ========== 2. About Me ========== -->
+  <section class="about" id="about" data-anim="fly-in">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag anim-fade-in">ABOUT ME</span>
+        <h2 class="section-title anim-fly-in" data-i18n="about_title">About Me</h2>
+        <div class="section-line anim-scale-x"></div>
+      </div>
+
+      <div class="about-grid">
+        <!-- 左侧：头像 -->
+        <div class="about-photo anim-slide-right">
+          <div class="photo-frame">
+            <img src="./images/个人3.jpg" alt="Monica Dong" />
+            <div class="photo-border"></div>
+            <div class="photo-dots"></div>
+          </div>
+          <div class="about-stats">
+            <div class="stat-item">
+              <span class="stat-number" data-target="15">0</span>
+              <span class="stat-label" data-i18n="stat_videos">Videos Produced</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-target="3">0</span>
+              <span class="stat-label" data-i18n="stat_languages">Languages</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-target="50">0</span>
+              <span class="stat-label" data-i18n="stat_students">Students Mentored</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：简介 -->
+        <div class="about-info anim-slide-left">
+          <h3 class="about-subtitle" data-i18n="about_subtitle">Multidisciplinary Storyteller</h3>
+          <p class="about-text">
+            <span data-i18n="about_text1">A creative media professional with a passion for crafting narratives across written and visual media. I combine formal training in creative media with hands-on experience in event production, multicultural research, and content creation.</span>
+          </p>
+          <p class="about-text">
+            <span data-i18n="about_text2">Adept at blending Eastern and Western perspectives, fluent in English, Mandarin, and Cantonese. Currently refining skills in screenwriting and documentary filmmaking while leveraging a background in education and cross-cultural collaboration.</span>
+          </p>
+
+          <!-- 技能条 -->
+          <div class="skills-section">
+            <h4 class="skills-title" data-i18n="skills_title">Professional Skills</h4>
+            <div class="skill-bar">
+              <div class="skill-info"><span data-i18n="skill_film">Filmmaking & Video Production</span><span>90%</span></div>
+              <div class="skill-track"><div class="skill-fill" data-width="90"></div></div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-info"><span data-i18n="skill_screen">Screenwriting & Storytelling</span><span>88%</span></div>
+              <div class="skill-track"><div class="skill-fill" data-width="88"></div></div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-info"><span data-i18n="skill_adobe">Adobe Suite (Premiere, AE, Ps, Ai)</span><span>85%</span></div>
+              <div class="skill-track"><div class="skill-fill" data-width="85"></div></div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-info"><span data-i18n="skill_copy">Bilingual Copywriting</span><span>92%</span></div>
+              <div class="skill-track"><div class="skill-fill" data-width="92"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 个人趣味卡片 (杂志/拼贴风格) -->
+      <div class="fun-card anim-slide-up" style="--delay:0.2s">
+        <!-- 撕纸边装饰 -->
+        <div class="torn-edge torn-top"></div>
+        <div class="torn-edge torn-bottom"></div>
+
+        <!-- 大标题 -->
+        <div class="fun-title-big">ABOUT ME</div>
+
+        <!-- 内容区域：照片居中，信息散布 -->
+        <div class="fun-layout">
+          <!-- 左侧信息 -->
+          <div class="fun-left">
+            <div class="fun-block fun-block-name">
+              <span class="fun-hand-label" data-i18n="fun_name_label">I'm</span>
+              <span class="fun-hand-name">Monica Dong!</span>
+            </div>
+            <div class="fun-block">
+              <span class="fun-hand-text" data-i18n="fun_school">Hong Kong Baptist University</span>
+            </div>
+            <div class="fun-block">
+              <span class="fun-hand-text" data-i18n="fun_from">From Qingdao, Shandong</span>
+            </div>
+            <div class="fun-block fun-block-date">
+              <span class="fun-date-num">02.23</span>
+              <span class="fun-hand-text" data-i18n="fun_birthday">Pisces ♓ · INFJ</span>
+            </div>
+          </div>
+
+          <!-- 中间照片 -->
+          <div class="fun-center">
+            <div class="fun-photo-circle">
+              <img src="./images/个人1.jpg" alt="Monica Dong" />
+            </div>
+            <div class="fun-from-label">FROM<br>QINGDAO</div>
+          </div>
+
+          <!-- 右侧信息 -->
+          <div class="fun-right">
+            <div class="fun-block">
+              <span class="fun-section-label" data-i18n="fun_likes_title">Things I Love</span>
+            </div>
+            <div class="fun-block">
+              <span class="fun-hand-text" data-i18n="fun_travel">✈️ Traveling the world</span>
+            </div>
+            <div class="fun-block">
+              <span class="fun-hand-text" data-i18n="fun_pets">🐾 9 cats & 4 dogs at home</span>
+            </div>
+            <div class="fun-block">
+              <span class="fun-hand-text" data-i18n="fun_photography">📷 Photography</span>
+            </div>
+            <div class="fun-sticker-group">
+              <span class="fun-tag-label">TAG#</span>
+              <div class="fun-sticker" data-i18n="fun_tag2">Retired Night Owl 🌙</div>
+              <div class="fun-sticker" data-i18n="fun_tag3">PS Super VIP ✨</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 底部标签条 -->
+        <div class="fun-bottom-tags">
+          <span class="fun-sticker" data-i18n="fun_tag4">Film Enthusiast 🎬</span>
+          <span class="fun-sticker" data-i18n="fun_tag5">Cat & Dog Person 🐱🐶</span>
+          <span class="fun-sticker fun-sticker-accent">INFJ</span>
+          <span class="fun-sticker">♓ Pisces</span>
+        </div>
+      </div>
+
+      <!-- 时间线 -->
+      <div class="timeline-section">
+        <h3 class="timeline-title anim-slide-up" data-i18n="timeline_title">Education & Experience</h3>
+        <div class="timeline">
+          <div class="timeline-item anim-slide-up" style="--delay:0.1s">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">2023 - 2025 (Expected)</span>
+              <h4 data-i18n="tl1_title">Diploma in Creative Media</h4>
+              <p data-i18n="tl1_desc">Caritas Bianchi College of Careers, Hong Kong · Screenwriting, Visual Storytelling, Documentary Production, Transmedia Narratives</p>
+            </div>
+          </div>
+          <div class="timeline-item anim-slide-up" style="--delay:0.2s">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">2022 - 2023</span>
+              <h4 data-i18n="tl2_title">Creative Content Assistant</h4>
+              <p data-i18n="tl2_desc">HK-Macao Youth Innovation & Entrepreneurship Center · Produced 15+ promotional videos, scripted bilingual content, collaborated on documentary shorts</p>
+            </div>
+          </div>
+          <div class="timeline-item anim-slide-up" style="--delay:0.3s">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">2021 - 2023</span>
+              <h4 data-i18n="tl3_title">Communication Studies</h4>
+              <p data-i18n="tl3_desc">Hong Kong Polytechnic University (CPCE) · Foundational coursework in media ethics and narrative analysis</p>
+            </div>
+          </div>
+          <div class="timeline-item anim-slide-up" style="--delay:0.4s">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">Summer 2020</span>
+              <h4 data-i18n="tl4_title">Teaching Assistant & Storytelling Mentor</h4>
+              <p data-i18n="tl4_desc">Qufu Hope Primary & Middle School · Designed creative writing workshops for 50+ students, documented activities through photo essays and short films</p>
+            </div>
+          </div>
+          <div class="timeline-item anim-slide-up" style="--delay:0.5s">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">2018 - 2021</span>
+              <h4 data-i18n="tl5_title">Guoyang No. 4 Middle School</h4>
+              <p data-i18n="tl5_desc">Led the school's first student-run podcast "Voices of Youth", blending interviews and creative fiction</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 兴趣爱好 -->
+      <div class="hobbies-section" id="hobbies">
+        <h3 class="timeline-title anim-slide-up" data-i18n="hobbies_title">Hobbies & Interests</h3>
+        <div class="hobbies-grid">
+
+          <!-- 摄影 -->
+          <div class="hobby-card anim-slide-up" style="--delay:0.1s">
+            <div class="hobby-header">
+              <div class="hobby-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <h4 data-i18n="hobby_photo_title">Photography</h4>
+            </div>
+            <p class="hobby-desc" data-i18n="hobby_photo_desc">Capturing fleeting moments through the lens — from street scenes to cinematic portraits, finding beauty in light and shadow.</p>
+            <div class="hobby-gallery">
+              <div class="hobby-img" onclick="openPhotoViewer(this)"><img src="./images/摄影1.jpg" alt="Photography" loading="lazy" /></div>
+              <div class="hobby-img" onclick="openPhotoViewer(this)"><img src="./images/摄影2.jpg" alt="Photography" loading="lazy" /></div>
+              <div class="hobby-img" onclick="openPhotoViewer(this)"><img src="./images/摄影5.jpg" alt="Photography" loading="lazy" /></div>
+              <div class="hobby-img" onclick="openPhotoViewer(this)"><img src="./images/摄影6.jpg" alt="Photography" loading="lazy" /></div>
+              <div class="hobby-img" onclick="openPhotoViewer(this)"><img src="./images/摄影7.jpg" alt="Photography" loading="lazy" /></div>
+              <div class="hobby-img" onclick="openPhotoViewer(this)"><img src="./images/摄影13.jpg" alt="Photography" loading="lazy" /></div>
+            </div>
+          </div>
+
+          <!-- 养宠 -->
+          <div class="hobby-card anim-slide-up" style="--delay:0.2s">
+            <div class="hobby-header">
+              <div class="hobby-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21c-1.5 0-5-2.5-7.5-5.5C2 12.5 1 9.5 2.5 7c1-1.5 3-2 4.5-1 1 .5 2 2 2.5 3.5h5c.5-1.5 1.5-3 2.5-3.5 1.5-1 3.5-.5 4.5 1 1.5 2.5.5 5.5-2 8.5C17 18.5 13.5 21 12 21z"/><circle cx="8" cy="4" r="1.5"/><circle cx="16" cy="4" r="1.5"/><circle cx="5" cy="8" r="1.5"/><circle cx="19" cy="8" r="1.5"/></svg>
+              </div>
+              <h4 data-i18n="hobby_pet_title">Pet Parent</h4>
+            </div>
+            <p class="hobby-desc" data-i18n="hobby_pet_desc">A devoted pet parent — my furry companion is a constant source of joy, comfort, and creative inspiration.</p>
+            <div class="hobby-pet-showcase">
+              <div class="pet-photo" onclick="openPhotoViewer(this)">
+                <img src="./images/个人4.jpg" alt="My Pet" loading="lazy" />
+                <div class="pet-overlay">
+                  <span data-i18n="hobby_pet_label">My Best Friend</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo Viewer Overlay -->
+  <div class="photo-viewer-overlay" id="photoViewer" onclick="closePhotoViewer(event)">
+    <button class="modal-close" onclick="closePhotoViewer()">&times;</button>
+    <img class="photo-viewer-img" id="photoViewerImg" src="" alt="Photo" />
+  </div>
+
+  <!-- ========== Parallax Photo Wall (Sticky Scroll) ========== -->
+  <div class="pw-scroll-container" id="pwScrollContainer">
+    <div class="parallax-wall" id="parallaxWall">
+      <div class="pw-inner">
+        <div class="pw-img" data-speed="0.5">
+          <img src="./images/摄影1.jpg" alt="Photography" loading="lazy" />
+        </div>
+        <div class="pw-img" data-speed="0.9">
+          <img src="./images/个人2.jpg" alt="Monica" loading="lazy" />
+        </div>
+        <div class="pw-img" data-speed="0.55">
+          <img src="./images/摄影5.jpg" alt="Photography" loading="lazy" />
+        </div>
+        <div class="pw-img" data-speed="0.7">
+          <img src="./images/个人1.jpg" alt="Monica" loading="lazy" />
+        </div>
+        <div class="pw-img" data-speed="1.1">
+          <img src="./images/摄影2.jpg" alt="Photography" loading="lazy" />
+        </div>
+        <div class="pw-img" data-speed="0.6">
+          <img src="./images/摄影6.jpg" alt="Photography" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="film-strip-divider">
+    <div class="film-perforations">
+      <div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div>
+      <span class="film-strip-label">SCENE 02 · PORTFOLIO</span>
+      <div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div>
+    </div>
+  </div>
+
+  <!-- ========== 3. Portfolio ========== -->
+  <section class="projects" id="projects" data-anim="flip-in">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag anim-fade-in">PORTFOLIO</span>
+        <h2 class="section-title anim-fly-in" data-i18n="portfolio_title">Selected Works</h2>
+        <div class="section-line anim-scale-x"></div>
+      </div>
+
+      <!-- 筛选按钮 -->
+      <div class="filter-bar anim-slide-up">
+        <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+        <button class="filter-btn" data-filter="film" data-i18n="filter_film">Short Film</button>
+        <button class="filter-btn" data-filter="video" data-i18n="filter_video">Music Video</button>
+        <button class="filter-btn" data-filter="design" data-i18n="filter_design">Design</button>
+        <button class="filter-btn" data-filter="writing" data-i18n="filter_writing">Writing</button>
+      </div>
+
+      <!-- 作品网格 -->
+      <div class="projects-grid" id="projectsGrid">
+        <div class="project-card video-card" data-category="video">
+          <div class="card-image" onmouseenter="hoverVideoPlay(this)" onmouseleave="hoverVideoPause(this)">
+            <video class="card-video" muted loop playsinline preload="metadata" poster="./images/阿拉斯加.png">
+              <source src="./images/视频2.mp4" type="video/mp4" />
+            </video>
+            <div class="video-play-btn" onclick="openVideoModal('./images/视频2.mp4')">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div class="card-overlay">
+              <span class="card-category" data-i18n="filter_video">Music Video</span>
+              <h3 class="card-title" data-i18n="p0_title">Alaska Gulf</h3>
+              <p class="card-desc" data-i18n="p0_desc">A cinematic music video set against vast ocean landscapes, capturing themes of solitude, longing, and emotional depth</p>
+              <button class="card-btn" onclick="openProjectModal(0)" data-i18n="view_details">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card video-card" data-category="design">
+          <div class="card-image" onmouseenter="hoverVideoPlay(this)" onmouseleave="hoverVideoPause(this)">
+            <video class="card-video" muted loop playsinline preload="metadata">
+              <source src="./images/视频3.mp4" type="video/mp4" />
+            </video>
+            <div class="video-play-btn" onclick="openVideoModal('./images/视频3.mp4')">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div class="card-overlay">
+              <span class="card-category" data-i18n="filter_design">Design</span>
+              <h3 class="card-title" data-i18n="p1_title">Original Anime Character</h3>
+              <p class="card-desc" data-i18n="p1_desc">An original 2D anime male protagonist brought to life through dynamic animation and creative character design</p>
+              <button class="card-btn" onclick="openProjectModal(1)" data-i18n="view_details">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="video">
+          <div class="card-image">
+            <img src="./images/阿拉斯加.png" alt="Alaska Gulf" loading="lazy" />
+            <div class="card-overlay">
+              <span class="card-category" data-i18n="filter_video">Music Video</span>
+              <h3 class="card-title" data-i18n="p2_title">Alaska Gulf</h3>
+              <p class="card-desc" data-i18n="p2_desc">A cinematic music video featuring ocean landscapes and emotional storytelling, capturing solitude and longing</p>
+              <button class="card-btn" onclick="openProjectModal(2)" data-i18n="view_details">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="video">
+          <div class="card-image">
+            <img src="./images/阿拉蕾.png" alt="Arale" loading="lazy" />
+            <div class="card-overlay">
+              <span class="card-category" data-i18n="filter_video">Music Video</span>
+              <h3 class="card-title" data-i18n="p3_title">Arale</h3>
+              <p class="card-desc" data-i18n="p3_desc">A playful cosplay-themed short video bringing the beloved anime character to life in vibrant outdoor settings</p>
+              <button class="card-btn" onclick="openProjectModal(3)" data-i18n="view_details">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="design">
+          <div class="card-image">
+            <img src="./images/原创设计.png" alt="Original Movie Merchandise Design" loading="lazy" />
+            <div class="card-overlay">
+              <span class="card-category" data-i18n="filter_design">Design</span>
+              <h3 class="card-title" data-i18n="p4_title">Movie Merchandise Design</h3>
+              <p class="card-desc" data-i18n="p4_desc">Original merchandise design including 3D scene modeling, keychains, bookmarks, and phone cases for film promotion</p>
+              <button class="card-btn" onclick="openProjectModal(4)" data-i18n="view_details">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="writing">
+          <div class="card-image">
+            <img src="./images/文字作品.png" alt="Literary Works" loading="lazy" />
+            <div class="card-overlay">
+              <span class="card-category" data-i18n="filter_writing">Writing</span>
+              <h3 class="card-title" data-i18n="p5_title">Literary & Planning Works</h3>
+              <p class="card-desc" data-i18n="p5_desc">A collection of screenplays, movie premiere event plans, and film business proposals</p>
+              <button class="card-btn" onclick="openProjectModal(5)" data-i18n="view_details">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="design">
+          <div class="card-image">
+            <img src="./images/作品1.jpg" alt="Product Design" loading="lazy" />
+            <div class="card-overlay">
+              <span class="card-category" data-i18n="filter_design">Design</span>
+              <h3 class="card-title" data-i18n="p6_title">Product Design</h3>
+              <p class="card-desc" data-i18n="p6_desc">Original product design concepts blending aesthetics with functionality, from ideation sketches to polished visual presentations</p>
+              <button class="card-btn" onclick="openProjectModal(6)" data-i18n="view_details">View Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="film-strip-divider">
+    <div class="film-perforations">
+      <div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div>
+      <span class="film-strip-label">SCENE 03 · EXTRAS</span>
+      <div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div>
+    </div>
+  </div>
+
+  <!-- ========== 项目详情弹窗 ========== -->
+  <div class="modal-overlay" id="projectModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeProjectModal()">&times;</button>
+      <div class="modal-image">
+        <img id="modalImage" src="" alt="" />
+      </div>
+      <div class="modal-body">
+        <span class="modal-category" id="modalCategory"></span>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-details">
+          <div class="detail-item">
+            <h4 data-i18n="modal_client">Client</h4>
+            <p id="modalClient"></p>
+          </div>
+          <div class="detail-item">
+            <h4 data-i18n="modal_date">Date</h4>
+            <p id="modalDate"></p>
+          </div>
+          <div class="detail-item">
+            <h4 data-i18n="modal_role">Role</h4>
+            <p id="modalRole"></p>
+          </div>
+        </div>
+        <div class="modal-process">
+          <h4 data-i18n="modal_process">Process</h4>
+          <p id="modalProcess"></p>
+        </div>
+        <div class="modal-gallery" id="modalGallery"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 交互元素：小测试 ========== -->
+  <section class="interactive" id="interactive" data-anim="zoom-in">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag anim-fade-in">INTERACTIVE</span>
+        <h2 class="section-title anim-fly-in" data-i18n="interactive_title">Interactive</h2>
+        <div class="section-line anim-scale-x"></div>
+      </div>
+
+      <div class="interactive-grid">
+        <!-- 电影风格测试 -->
+        <div class="interactive-card">
+          <div class="interactive-icon"><svg viewBox="0 0 24 24" fill="none" stroke="url(#grad1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ece8e7"/><stop offset="100%" style="stop-color:#c8b8a9"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/><line x1="17" y1="17" x2="22" y2="17"/></svg></div>
+          <h3 data-i18n="quiz_title">Film Genre Quiz</h3>
+          <p data-i18n="quiz_desc">Discover which film genre matches your creative personality</p>
+          <button class="btn btn-primary" onclick="startQuiz()" data-i18n="quiz_btn">Take the Quiz</button>
+        </div>
+
+        <!-- 经典电影台词 -->
+        <div class="interactive-card">
+          <div class="interactive-icon"><svg viewBox="0 0 24 24" fill="none" stroke="url(#grad2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ffffff"/><stop offset="100%" style="stop-color:#d5d0ce"/></linearGradient></defs><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <h3 data-i18n="resource_title">Classic Film Quotes</h3>
+          <p data-i18n="resource_desc">Iconic lines from cinema history to inspire your storytelling</p>
+          <button class="btn btn-primary" onclick="showResources()" data-i18n="resource_btn">Explore Quotes</button>
+        </div>
+
+        <!-- 电影配色方案 -->
+        <div class="interactive-card">
+          <div class="interactive-icon"><svg viewBox="0 0 24 24" fill="none" stroke="url(#grad3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ece8e7"/><stop offset="100%" style="stop-color:#a89888"/></linearGradient></defs><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+          <h3 data-i18n="color_title">Cinema Color Palette</h3>
+          <p data-i18n="color_desc">Generate color palettes inspired by iconic films</p>
+          <div class="color-generator" id="colorGenerator">
+            <div class="color-swatch" style="background:#1a3a4a"></div>
+            <div class="color-swatch" style="background:#c8a96e"></div>
+            <div class="color-swatch" style="background:#8b2500"></div>
+            <div class="color-swatch" style="background:#2d4a3e"></div>
+            <div class="color-swatch" style="background:#0a0a0f"></div>
+          </div>
+          <button class="btn btn-primary" onclick="generateColors()" data-i18n="color_btn">Generate Palette</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 测试弹窗 -->
+  <div class="quiz-overlay" id="quizOverlay">
+    <div class="quiz-modal">
+      <button class="modal-close" onclick="closeQuiz()">&times;</button>
+      <div class="quiz-content" id="quizContent"></div>
+    </div>
+  </div>
+
+  <!-- 经典台词弹窗 -->
+  <div class="resources-overlay" id="resourcesOverlay">
+    <div class="resources-modal">
+      <button class="modal-close" onclick="closeResources()">&times;</button>
+      <h2 data-i18n="res_modal_title">Classic Film Quotes</h2>
+      <div class="resources-list">
+        <div class="resource-item">
+          <div class="resource-icon">�</div>
+          <div>
+            <h4 data-i18n="res1_title">"Here's looking at you, kid."</h4>
+            <p data-i18n="res1_desc">— Casablanca (1942)</p>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">�</div>
+          <div>
+            <h4 data-i18n="res2_title">"Life is like a box of chocolates."</h4>
+            <p data-i18n="res2_desc">— Forrest Gump (1994)</p>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">🎞️</div>
+          <div>
+            <h4 data-i18n="res3_title">"May the Force be with you."</h4>
+            <p data-i18n="res3_desc">— Star Wars (1977)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 4. 联系我 ========== -->
+  <section class="contact" id="contact" data-anim="rise-up">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag anim-fade-in">CONTACT</span>
+        <h2 class="section-title anim-fly-in" data-i18n="contact_title">Get In Touch</h2>
+        <div class="section-line anim-scale-x"></div>
+      </div>
+
+      <div class="contact-grid">
+        <!-- 联系表单 -->
+        <div class="contact-form-wrap">
+          <h3 data-i18n="contact_form_title">Send a Message</h3>
+          <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <input type="text" id="formName" required placeholder=" " />
+              <label for="formName" data-i18n="form_name">Your Name</label>
+              <div class="form-line"></div>
+            </div>
+            <div class="form-group">
+              <input type="email" id="formEmail" required placeholder=" " />
+              <label for="formEmail" data-i18n="form_email">Email Address</label>
+              <div class="form-line"></div>
+            </div>
+            <div class="form-group">
+              <input type="text" id="formSubject" required placeholder=" " />
+              <label for="formSubject" data-i18n="form_subject">Subject</label>
+              <div class="form-line"></div>
+            </div>
+            <div class="form-group">
+              <textarea id="formMessage" rows="5" required placeholder=" "></textarea>
+              <label for="formMessage" data-i18n="form_message">Your Message</label>
+              <div class="form-line"></div>
+            </div>
+            <button type="submit" class="btn btn-primary magnetic-btn">
+              <span data-i18n="form_submit">Send Message</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+          </form>
+          <div class="form-success" id="formSuccess">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <h3 data-i18n="form_success_title">Message Sent!</h3>
+            <p data-i18n="form_success_desc">Thank you for reaching out. I'll get back to you soon.</p>
+          </div>
+        </div>
+
+        <!-- 联系信息 -->
+        <div class="contact-info">
+          <div class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <h4 data-i18n="info_email">Email</h4>
+              <p>Monica.dong223@outlook.com</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <h4 data-i18n="info_phone">Phone</h4>
+              <p>+852-6732-1738</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <h4 data-i18n="info_location">Location</h4>
+              <p>Hong Kong</p>
+            </div>
+          </div>
+
+          <div class="info-card qr-card" onclick="openQRCode()">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div>
+              <h4 data-i18n="info_wechat">WeChat</h4>
+              <p data-i18n="info_wechat_hint">Click to scan QR code</p>
+            </div>
+            <div class="qr-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="film-strip-divider">
+    <div class="film-perforations">
+      <div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div>
+      <span class="film-strip-label">SCENE 04 · END CREDITS</span>
+      <div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div><div class="film-perf"></div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Video Modal -->
+  <div class="video-overlay" id="videoOverlay" onclick="closeVideoModal(event)">
+    <button class="modal-close" onclick="closeVideoModal()">&times;</button>
+    <div class="video-modal-inner">
+      <div class="video-curtain video-curtain-left"></div>
+      <div class="video-curtain video-curtain-right"></div>
+      <video class="video-modal-player" id="videoModalPlayer" controls>
+        <source id="videoModalSource" src="" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+
+  <!-- WeChat QR Code Popup -->
+  <div class="qr-overlay" id="qrOverlay" onclick="closeQRCode(event)">
+    <div class="qr-modal">
+      <button class="modal-close" onclick="closeQRCode()">&times;</button>
+      <div class="qr-content">
+        <div class="qr-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <h3 data-i18n="qr_title">Scan to Add WeChat</h3>
+        <div class="qr-image-wrap">
+          <img src="./images/二维码.png" alt="WeChat QR Code" />
+        </div>
+        <p data-i18n="qr_hint">Open WeChat and scan the QR code to connect</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 页脚 ========== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="logo-text">M<span class="logo-dot">.</span>D</span>
+          <p data-i18n="footer_desc">Crafting stories across written and visual media.</p>
+        </div>
+        <div class="footer-links">
+          <h4 data-i18n="footer_links">Quick Links</h4>
+          <a href="#hero" data-i18n="nav_home">Home</a>
+          <a href="#about" data-i18n="nav_about">About</a>
+          <a href="#projects" data-i18n="nav_portfolio">Portfolio</a>
+          <a href="#contact" data-i18n="nav_contact">Contact</a>
+        </div>
+        <div class="footer-social">
+          <h4 data-i18n="footer_social">Social</h4>
+          <div class="footer-social-icons">
+            <a href="mailto:Monica.dong223@outlook.com" title="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+            <a href="#" title="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="#" title="Instagram">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" title="Vimeo">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 11.4C4.603 8.816 3.834 7.522 3.01 7.522c-.179 0-.806.378-1.881 1.132L0 7.197c1.185-1.044 2.351-2.084 3.501-3.128C5.08 2.701 6.266 1.984 7.055 1.91c1.867-.18 3.016 1.1 3.447 3.838.465 2.953.789 4.789.971 5.507.539 2.45 1.131 3.674 1.776 3.674.502 0 1.256-.796 2.265-2.385 1.004-1.589 1.54-2.797 1.612-3.628.144-1.371-.395-2.061-1.614-2.061-.574 0-1.167.121-1.777.391 1.186-3.868 3.434-5.757 6.762-5.637 2.473.06 3.628 1.664 3.493 4.797l-.013.01z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Monica Dong. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
