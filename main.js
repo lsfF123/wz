@@ -223,19 +223,31 @@ function initImageParallax() {
 
 // ========== Skill Bar Animation ==========
 function initSkillBars() {
+  const skillBars = document.querySelectorAll('.skill-bar');
   const skillFills = document.querySelectorAll('.skill-fill');
 
-  const observer = new IntersectionObserver((entries) => {
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  skillBars.forEach(bar => barObserver.observe(bar));
+
+  const fillObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const width = entry.target.dataset.width;
         entry.target.style.width = width + '%';
-        observer.unobserve(entry.target);
+        fillObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.5 });
 
-  skillFills.forEach(fill => observer.observe(fill));
+  skillFills.forEach(fill => fillObserver.observe(fill));
 }
 
 // ========== Counter Animation ==========
@@ -540,6 +552,110 @@ function generateColors() {
   });
 }
 
+// ========== Film Mood Selector ==========
+const moodFilms = {
+  happy: [
+    { title: 'The Grand Budapest Hotel', desc: 'Wes Anderson 的奇幻冒险，色彩缤纷治愈系' },
+    { title: 'Amélie', desc: '巴黎少女的奇妙善举，温暖满分' },
+    { title: 'Singin\' in the Rain', desc: '经典歌舞片，快乐会传染' }
+  ],
+  sad: [
+    { title: 'In the Mood for Love', desc: '王家卫的含蓄之美，错过也是一种诗意' },
+    { title: 'Grave of the Fireflies', desc: '高畑勲的反战动画，准备好纸巾' },
+    { title: 'Blue Valentine', desc: '爱情从灿烂到凋零的真实写照' }
+  ],
+  excited: [
+    { title: 'Mad Max: Fury Road', desc: '两小时肾上腺素狂飙，不停歇' },
+    { title: 'Spider-Man: Into the Spider-Verse', desc: '视觉爆炸的动画革命' },
+    { title: 'Inception', desc: '层层递进的梦境，烧脑又刺激' }
+  ],
+  chill: [
+    { title: 'My Neighbor Totoro', desc: '宫崎骏的田园童话，治愈一切' },
+    { title: 'Lost in Translation', desc: '东京的迷失与陪伴，安静而深刻' },
+    { title: 'The Secret Life of Walter Mitty', desc: '白日梦想家的冒险之旅' }
+  ],
+  scared: [
+    { title: 'Get Out', desc: '社会恐怖片的巅峰之作' },
+    { title: 'The Shining', desc: 'Kubrick 的经典恐怖，永远经典' },
+    { title: 'A Quiet Place', desc: '安静到让你屏住呼吸' }
+  ],
+  romantic: [
+    { title: 'Before Sunrise', desc: '维也纳一夜的对话与心动' },
+    { title: 'La La Land', desc: '追梦与爱情的浪漫交织' },
+    { title: 'Your Name', desc: '新海诚的跨越时空之恋' }
+  ]
+};
+
+function pickMood(mood) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.mood-btn[data-mood="${mood}"]`).classList.add('active');
+  const films = moodFilms[mood];
+  const pick = films[Math.floor(Math.random() * films.length)];
+  const resultEl = document.getElementById('moodResult');
+  resultEl.innerHTML = `<strong>${pick.title}</strong>${pick.desc}`;
+  resultEl.style.animation = 'none';
+  resultEl.offsetHeight;
+  resultEl.style.animation = 'fadeInUp 0.4s ease';
+}
+
+// ========== Guess the Film ==========
+const guessFilmsData = [
+  { emojis: '🚢❄️💑', answer: 'Titanic', options: ['Titanic', 'The Notebook', 'Frozen', 'Cast Away'] },
+  { emojis: '🦁👑🌅', answer: 'The Lion King', options: ['The Lion King', 'Madagascar', 'Zootopia', 'Jungle Book'] },
+  { emojis: '🕷️🦸🏙️', answer: 'Spider-Man', options: ['Spider-Man', 'Batman', 'Superman', 'Iron Man'] },
+  { emojis: '🧙💍🌋', answer: 'Lord of the Rings', options: ['Lord of the Rings', 'Harry Potter', 'The Hobbit', 'Narnia'] },
+  { emojis: '🤖❤️🌱', answer: 'WALL-E', options: ['WALL-E', 'Big Hero 6', 'I, Robot', 'Terminator'] },
+  { emojis: '🐀👨‍🍳🇫🇷', answer: 'Ratatouille', options: ['Ratatouille', 'Julie & Julia', 'Chef', 'Burnt'] },
+  { emojis: '🧊👸⛄', answer: 'Frozen', options: ['Frozen', 'Brave', 'Tangled', 'Moana'] },
+  { emojis: '🦖🏝️⚡', answer: 'Jurassic Park', options: ['Jurassic Park', 'King Kong', 'Godzilla', 'Avatar'] },
+  { emojis: '👻🏚️👦', answer: 'The Sixth Sense', options: ['The Sixth Sense', 'Casper', 'Ghostbusters', 'The Others'] },
+  { emojis: '🎹🌙💃', answer: 'La La Land', options: ['La La Land', 'Whiplash', 'Chicago', 'Moulin Rouge'] }
+];
+
+let guessIndex = 0;
+let guessScore = 0;
+
+function startGuessGame() {
+  guessIndex = 0;
+  guessScore = 0;
+  // Shuffle
+  guessFilmsData.sort(() => Math.random() - 0.5);
+  showGuessQuestion();
+}
+
+function showGuessQuestion() {
+  if (guessIndex >= 5) {
+    document.getElementById('guessEmojis').textContent = '';
+    document.getElementById('guessOptions').innerHTML = '';
+    document.getElementById('guessFeedback').innerHTML = `🎬 ${guessScore}/5 correct!`;
+    return;
+  }
+  const q = guessFilmsData[guessIndex];
+  document.getElementById('guessEmojis').textContent = q.emojis;
+  document.getElementById('guessFeedback').textContent = '';
+  const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+  document.getElementById('guessOptions').innerHTML = shuffled.map(opt =>
+    `<button class="guess-opt-btn" onclick="checkGuess(this, '${opt}', '${q.answer}')">${opt}</button>`
+  ).join('');
+}
+
+function checkGuess(btn, picked, answer) {
+  const btns = document.querySelectorAll('.guess-opt-btn');
+  btns.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === answer) b.classList.add('correct');
+  });
+  if (picked === answer) {
+    guessScore++;
+    document.getElementById('guessFeedback').textContent = '✓ Correct!';
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('guessFeedback').textContent = '✗ Not quite!';
+  }
+  guessIndex++;
+  setTimeout(showGuessQuestion, 1200);
+}
+
 // ========== WeChat QR Code Popup ==========
 function openQRCode() {
   document.getElementById('qrOverlay').classList.add('active');
@@ -662,24 +778,24 @@ const i18n = {
     about_title: 'About Me',
     stat_videos: 'Videos Produced', stat_languages: 'Languages', stat_students: 'Students Mentored',
     about_subtitle: 'Multidisciplinary Storyteller',
-    about_text1: 'A creative media professional with a passion for crafting narratives across written and visual media. I combine formal training in creative media with hands-on experience in event production, multicultural research, and content creation.',
-    about_text2: 'Adept at blending Eastern and Western perspectives, fluent in English, Mandarin, and Cantonese. Currently refining skills in screenwriting and documentary filmmaking while leveraging a background in education and cross-cultural collaboration.',
+    about_text1: '<strong class="hl" data-tip="Film · Design · Writing">Creative media</strong> storyteller blending <strong class="hl" data-tip="15+ videos produced">visual & written narratives</strong>. Trained in <strong class="hl" data-tip="Drama · Short film">screenwriting</strong>, <strong class="hl" data-tip="Real stories, real people">documentary filmmaking</strong>, and <strong class="hl" data-tip="Premiere · Launch events">event production</strong>.',
+    about_text2: 'Fluent in <strong class="hl" data-tip="Native-level">English</strong>, <strong class="hl" data-tip="母语">Mandarin</strong> & <strong class="hl" data-tip="識講廣東話">Cantonese</strong>. Passionate about <strong class="hl" data-tip="East meets West">cross-cultural storytelling</strong> and <strong class="hl" data-tip="Video · Copy · Social">content creation</strong>.',
     skills_title: 'Professional Skills',
     skill_film: 'Filmmaking & Video Production', skill_screen: 'Screenwriting & Storytelling',
     skill_adobe: 'Adobe Suite (Premiere, AE, Ps, Ai)', skill_copy: 'Bilingual Copywriting',
     timeline_title: 'Education & Experience',
     tl0_title: 'Bachelor of Social Sciences (Honours) in Media and Social Communication',
-    tl0_desc: 'Hong Kong Baptist University (HKBU) · Confirmation of Admission',
+    tl0_desc: '<strong class="hl-tl">Hong Kong Baptist University (HKBU)</strong> · Confirmation of Admission',
     tl1_title: 'Diploma in Creative Media',
-    tl1_desc: 'Caritas Bianchi College of Careers, Hong Kong · Screenwriting, Visual Storytelling, Documentary Production, Transmedia Narratives',
+    tl1_desc: 'Caritas Bianchi College of Careers, Hong Kong · <strong class="hl-tl">Screenwriting</strong>, <strong class="hl-tl">Visual Storytelling</strong>, <strong class="hl-tl">Documentary Production</strong>, Transmedia Narratives',
     tl2_title: 'Creative Content Assistant',
-    tl2_desc: 'HK-Macao Youth Innovation & Entrepreneurship Center · Produced 15+ promotional videos, scripted bilingual content, collaborated on documentary shorts',
+    tl2_desc: 'HK-Macao Youth Innovation & Entrepreneurship Center · Produced <strong class="hl-tl">15+ promotional videos</strong>, scripted <strong class="hl-tl">bilingual content</strong>, collaborated on documentary shorts',
     tl3_title: 'Communication Studies',
-    tl3_desc: 'Hong Kong Polytechnic University (CPCE) · Foundational coursework in media ethics and narrative analysis',
+    tl3_desc: '<strong class="hl-tl">Hong Kong Polytechnic University (CPCE)</strong> · Foundational coursework in <strong class="hl-tl">media ethics</strong> and <strong class="hl-tl">narrative analysis</strong>',
     tl4_title: 'Teaching Assistant & Storytelling Mentor',
-    tl4_desc: 'Qufu Hope Primary & Middle School · Designed creative writing workshops for 50+ students, documented activities through photo essays and short films',
+    tl4_desc: 'Qufu Hope Primary & Middle School · Designed <strong class="hl-tl">creative writing workshops</strong> for <strong class="hl-tl">50+ students</strong>, documented activities through <strong class="hl-tl">photo essays</strong> and short films',
     tl5_title: 'Guoyang No. 4 Middle School',
-    tl5_desc: 'Led the school\'s first student-run podcast "Voices of Youth", blending interviews and creative fiction',
+    tl5_desc: 'Led the school\'s first <strong class="hl-tl">student-run podcast</strong> "Voices of Youth", blending <strong class="hl-tl">interviews</strong> and <strong class="hl-tl">creative fiction</strong>',
     portfolio_title: 'Selected Works',
     filter_all: 'All', filter_film: 'Short Film', filter_video: 'Music Video',
     filter_design: 'Design', filter_writing: 'Writing',
@@ -724,6 +840,8 @@ const i18n = {
     quiz_title: 'Film Genre Quiz', quiz_desc: 'Discover which film genre matches your creative personality', quiz_btn: 'Take the Quiz',
     resource_title: 'Classic Film Quotes', resource_desc: 'Iconic lines from cinema history to inspire your storytelling', resource_btn: 'Explore Quotes',
     color_title: 'Cinema Color Palette', color_desc: 'Generate color palettes inspired by iconic films', color_btn: 'Generate Palette',
+    mood_title: 'Film Mood Selector', mood_desc: 'Pick your mood, get a movie recommendation',
+    guess_title: 'Guess the Film', guess_desc: 'Can you name the movie from just 3 emojis?', guess_btn: 'Play Now',
     res_modal_title: 'Classic Film Quotes',
     res1_title: '"Here\'s looking at you, kid."', res1_desc: '— Casablanca (1942)',
     res2_title: '"Life is like a box of chocolates."', res2_desc: '— Forrest Gump (1994)',
@@ -749,24 +867,24 @@ const i18n = {
     about_title: '关于我',
     stat_videos: '视频作品', stat_languages: '语言能力', stat_students: '指导学生',
     about_subtitle: '跨领域叙事者',
-    about_text1: '一位热衷于在文字与视觉媒体中构建叙事的创意媒体专业人士。我将创意媒体的专业训练与活动制作、多元文化研究和内容创作的实践经验相结合。',
-    about_text2: '善于融合东西方视角，精通英语、普通话和粤语。目前正在精进编剧和纪录片制作技能，同时发挥教育和跨文化合作的背景优势。',
+    about_text1: '<strong class="hl" data-tip="影视 · 设计 · 写作">创意媒体</strong>叙事者，融合<strong class="hl" data-tip="15+ 视频作品">视觉与文字叙事</strong>。专业训练涵盖<strong class="hl" data-tip="剧情 · 短片">编剧</strong>、<strong class="hl" data-tip="真实故事，真实人物">纪录片制作</strong>与<strong class="hl" data-tip="首映 · 发布活动">活动策划</strong>。',
+    about_text2: '精通<strong class="hl" data-tip="Native-level">英语</strong>、<strong class="hl" data-tip="Native">普通话</strong>和<strong class="hl" data-tip="識講廣東話">粤语</strong>。热衷于<strong class="hl" data-tip="东西方融合">跨文化叙事</strong>与<strong class="hl" data-tip="视频 · 文案 · 社交">内容创作</strong>。',
     skills_title: '专业技能',
     skill_film: '影视制作与视频制作', skill_screen: '编剧与叙事',
     skill_adobe: 'Adobe 套件 (Premiere, AE, Ps, Ai)', skill_copy: '双语文案写作',
     timeline_title: '教育与工作经历',
     tl0_title: '社会科学（荣誉）学士 — 媒体与社会传播',
-    tl0_desc: '香港浸会大学 (HKBU) · 已获录取确认',
+    tl0_desc: '<strong class="hl-tl">香港浸会大学 (HKBU)</strong> · 已获录取确认',
     tl1_title: '创意媒体文凭',
-    tl1_desc: '香港明爱白英奇专业学校 · 编剧基础、视觉叙事、纪录片制作、跨媒体叙事',
+    tl1_desc: '香港明爱白英奇专业学校 · <strong class="hl-tl">编剧基础</strong>、<strong class="hl-tl">视觉叙事</strong>、<strong class="hl-tl">纪录片制作</strong>、跨媒体叙事',
     tl2_title: '创意内容助理',
-    tl2_desc: '港澳青年创新创业中心 · 制作 15+ 宣传视频，撰写双语内容，参与纪录短片制作',
+    tl2_desc: '港澳青年创新创业中心 · 制作 <strong class="hl-tl">15+ 宣传视频</strong>，撰写<strong class="hl-tl">双语内容</strong>，参与纪录短片制作',
     tl3_title: '传播学',
-    tl3_desc: '香港理工大学 (CPCE) · 媒体伦理与叙事分析基础课程',
+    tl3_desc: '<strong class="hl-tl">香港理工大学 (CPCE)</strong> · <strong class="hl-tl">媒体伦理</strong>与<strong class="hl-tl">叙事分析</strong>基础课程',
     tl4_title: '助教与叙事导师',
-    tl4_desc: '曲阜希望小学与中学 · 为 50+ 学生设计创意写作工作坊，通过图文纪实和短片记录课堂活动',
+    tl4_desc: '曲阜希望小学与中学 · 为 <strong class="hl-tl">50+ 学生</strong>设计<strong class="hl-tl">创意写作工作坊</strong>，通过<strong class="hl-tl">图文纪实</strong>和短片记录课堂活动',
     tl5_title: '涡阳第四中学',
-    tl5_desc: '创办学校首个学生播客「青年之声」，融合访谈与创意小说',
+    tl5_desc: '创办学校首个<strong class="hl-tl">学生播客</strong>「青年之声」，融合<strong class="hl-tl">访谈</strong>与<strong class="hl-tl">创意小说</strong>',
     portfolio_title: '精选作品',
     filter_all: '全部', filter_film: '短片', filter_video: '音乐视频',
     filter_design: '设计', filter_writing: '文字作品',
@@ -811,6 +929,8 @@ const i18n = {
     quiz_title: '电影风格测试', quiz_desc: '测测哪种电影类型最符合你的创作个性', quiz_btn: '开始测试',
     resource_title: '经典电影台词', resource_desc: '电影史上的经典台词，激发你的叙事灵感', resource_btn: '探索台词',
     color_title: '电影配色方案', color_desc: '生成经典电影风格的配色方案', color_btn: '生成配色',
+    mood_title: '电影心情选择器', mood_desc: '选择你的心情，获取电影推荐',
+    guess_title: '电影猜猜猜', guess_desc: '你能仅凭 3 个 Emoji 猜出电影名吗？', guess_btn: '开始游戏',
     res_modal_title: '经典电影台词',
     res1_title: '"永远年轻，永远热泪盈眶。"', res1_desc: '—— 《了不起的盖茨比》',
     res2_title: '"生活就像一盒巧克力，你永远不知道下一颗是什么味道。"', res2_desc: '—— 《阿甘正传》(1994)',
@@ -892,6 +1012,12 @@ function applyLanguage(lang) {
     const key = el.getAttribute('data-i18n');
     if (translations[key]) {
       el.textContent = translations[key];
+    }
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (translations[key]) {
+      el.innerHTML = translations[key];
     }
   });
 
@@ -1152,6 +1278,155 @@ function initThemeToggle() {
   });
 }
 
+// ========== Global Click Effects + Idle Hints ==========
+let currentEffect = 'emoji'; // emoji | trail | ripple
+let trailActive = false;
+
+function setClickEffect(mode) {
+  currentEffect = mode;
+  document.getElementById('effectChoice').classList.remove('show');
+  // Start trail mode listener
+  if (mode === 'trail' && !trailActive) {
+    trailActive = true;
+    document.addEventListener('mousemove', trailHandler, { passive: true });
+  } else if (mode !== 'trail' && trailActive) {
+    trailActive = false;
+    document.removeEventListener('mousemove', trailHandler);
+  }
+}
+
+function trailHandler(e) {
+  const dot = document.createElement('span');
+  dot.className = 'trail-dot';
+  const size = 4 + Math.random() * 8;
+  dot.style.width = size + 'px';
+  dot.style.height = size + 'px';
+  dot.style.left = e.clientX + 'px';
+  dot.style.top = e.clientY + 'px';
+  document.body.appendChild(dot);
+  dot.addEventListener('animationend', () => dot.remove());
+}
+
+function spawnEmojis(x, y) {
+  const emojis = [
+    '🎬', '🎥', '🎞️', '📽️', '🎭',
+    '📷', '📸', '🖼️', '🌅', '✨',
+    '🐱', '🐶', '🐰', '🦊', '🐼', '🐾',
+    '🎵', '⭐', '💫', '🌟'
+  ];
+  const count = 2 + Math.floor(Math.random() * 3);
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('span');
+    el.className = 'click-emoji';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = (x + (Math.random() - 0.5) * 60) + 'px';
+    el.style.top = (y + (Math.random() - 0.5) * 60) + 'px';
+    el.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    el.style.animationDelay = (i * 0.08) + 's';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+function spawnRipple(x, y) {
+  for (let i = 0; i < 3; i++) {
+    const ring = document.createElement('span');
+    ring.className = 'click-ripple';
+    ring.style.left = x + 'px';
+    ring.style.top = y + 'px';
+    ring.style.animationDelay = (i * 0.15) + 's';
+    document.body.appendChild(ring);
+    ring.addEventListener('animationend', () => ring.remove());
+  }
+}
+
+function initClickEmojis() {
+  const hint = document.getElementById('clickHint');
+  const choice = document.getElementById('effectChoice');
+  let idleTimer = null;
+  let firstClick = true;
+
+  function resetIdleTimer() {
+    if (hint) hint.classList.remove('show');
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      if (hint) hint.classList.add('show');
+    }, 5000);
+  }
+
+  resetIdleTimer();
+  document.addEventListener('mousemove', () => {
+    if (hint && hint.classList.contains('show')) return;
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      if (hint) hint.classList.add('show');
+    }, 6000);
+  }, { passive: true });
+
+  document.addEventListener('click', (e) => {
+    if (hint) hint.classList.remove('show');
+    clearTimeout(idleTimer);
+
+    if (e.target.closest('.effect-choice, .effect-btn')) return;
+    if (e.target.closest('button, a, input, textarea, .modal-close, .quiz-overlay, .resources-overlay, nav')) return;
+
+    // First click: show emoji burst + effect choice
+    if (firstClick) {
+      firstClick = false;
+      spawnEmojis(e.clientX, e.clientY);
+      setTimeout(() => {
+        if (choice) choice.classList.add('show');
+        setTimeout(() => {
+          if (choice) choice.classList.remove('show');
+        }, 6000);
+      }, 800);
+      return;
+    }
+
+    // Subsequent clicks: use chosen effect
+    if (currentEffect === 'emoji') {
+      spawnEmojis(e.clientX, e.clientY);
+    } else if (currentEffect === 'ripple') {
+      spawnRipple(e.clientX, e.clientY);
+    }
+    // trail mode doesn't need click handler (uses mousemove)
+  });
+
+  // Keyword wiggle: randomly wiggle 2-3 .hl keywords at once
+  const hlKeywords = document.querySelectorAll('.about-text .hl');
+  if (hlKeywords.length) {
+    setInterval(() => {
+      const count = 2 + Math.floor(Math.random() * 2); // 2 or 3
+      const indices = new Set();
+      while (indices.size < Math.min(count, hlKeywords.length)) {
+        indices.add(Math.floor(Math.random() * hlKeywords.length));
+      }
+      indices.forEach(idx => {
+        const el = hlKeywords[idx];
+        el.classList.add('wiggle');
+        el.addEventListener('animationend', () => el.classList.remove('wiggle'), { once: true });
+      });
+    }, 3000);
+  }
+
+  // Timeline keyword wiggle: continuous for .hl-tl
+  const tlKeywords = document.querySelectorAll('.hl-tl');
+  if (tlKeywords.length) {
+    setInterval(() => {
+      const count = 2 + Math.floor(Math.random() * 3);
+      const indices = new Set();
+      while (indices.size < Math.min(count, tlKeywords.length)) {
+        indices.add(Math.floor(Math.random() * tlKeywords.length));
+      }
+      indices.forEach(idx => {
+        const el = tlKeywords[idx];
+        el.classList.add('wiggle');
+        el.addEventListener('animationend', () => el.classList.remove('wiggle'), { once: true });
+      });
+    }, 2500);
+  }
+}
+
 // ========== Initialize Everything ==========
 function initAllAnimations() {
   createParticles();
@@ -1171,6 +1446,7 @@ function initAllAnimations() {
   initFilmCountdown();
   initCardGlow();
   initParallaxWall();
+  initClickEmojis();
   initThemeToggle();
 }
 
